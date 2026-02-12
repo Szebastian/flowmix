@@ -39,11 +39,16 @@ import { SupabaseService } from '@app/core/integrations/supabase.service';
 
         <div class="glass rounded-xl border border-white/10 bg-black/40 p-4 space-y-4">
           <h4 class="monotech text-[12px] uppercase text-white/60">Access Core (Allowlist)</h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <app-input icon="mail" [value]="admin1" (valueChange)="admin1 = $event" placeholder="Email 1 autorizado" />
-            <app-input icon="mail" [value]="admin2" (valueChange)="admin2 = $event" placeholder="Email 2 autorizado" />
+          <div class="space-y-3 mb-3">
+            @for (email of adminList; track $index) {
+              <div class="flex gap-2">
+                <app-input class="flex-1" icon="mail" [value]="email" (valueChange)="updateAdmin($index, $event)" [placeholder]="'Email ' + ($index + 1) + ' autorizado'" />
+                <app-button variant="outline" size="sm" (action)="removeAdmin($index)">X</app-button>
+              </div>
+            }
           </div>
           <div class="flex gap-3">
+            <app-button variant="ghost" size="sm" (action)="addAdmin()">+ Agregar Email</app-button>
             <app-button variant="primary" size="sm" (action)="saveAllowlist()">Guardar acceso</app-button>
           </div>
           @if (sbMessage) {
@@ -333,8 +338,19 @@ export class AdminContainerComponent {
   paySocio = this.supabase.getPaymentLink('socio');
   bankAlias = this.supabase.getBankAlias();
   bankInfo = this.supabase.getBankInfo();
-  admin1 = (localStorage.getItem('admin_allowed_users') || '').split(',')[0] || '';
-  admin2 = (localStorage.getItem('admin_allowed_users') || '').split(',')[1] || '';
+  adminList = this.auth.getAllowedUsers();
+
+  addAdmin() {
+    this.adminList.push('');
+  }
+
+  removeAdmin(index: number) {
+    this.adminList.splice(index, 1);
+  }
+
+  updateAdmin(index: number, value: string) {
+    this.adminList[index] = value;
+  }
 
   savePaymentLinks() {
     this.supabase.setPaymentLink('apoyo', this.payApoyo);
@@ -343,7 +359,7 @@ export class AdminContainerComponent {
     this.sbMessage = 'Enlaces de pago guardados';
   }
   saveAllowlist() {
-    const list = [this.admin1, this.admin2].map(v => (v || '').trim()).filter(Boolean);
+    const list = this.adminList.map(v => (v || '').trim()).filter(Boolean);
     inject(AdminAuthService).setAllowedUsers(list);
     this.sbMessage = 'Access Core actualizado';
   }
