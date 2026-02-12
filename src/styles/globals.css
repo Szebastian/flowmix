@@ -1,0 +1,92 @@
+@import '../app/core/theme/theme-variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .flex-basis-300 {
+    flex-basis: 300px;
+  }
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: max(884px, 100dvh);
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #050505;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--primary);
+  color: #000000;
+}
+
+::-moz-selection {
+  background-color: var(--primary);
+  color: #000000;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(13, 204, 242, 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(13, 204, 242, 0.6);
+}
+
+/* --- Fix para corregir el Autofill y Bordes en Inputs --- */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+  /* Forzamos el texto a blanco */
+  -webkit-text-fill-color: #ffffff !important;
+  /* Reemplazamos el fondo blanco/azul por el color de tu interfaz */
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  /* Mantenemos tu borde original */
+  border: none !important;
+}
+
+/* Eliminamos el contorno (outline) molesto que viste en la captura */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Unificamos el modelo de caja para que 'email' y 'text' midan lo mismo */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}

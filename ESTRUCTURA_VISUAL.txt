@@ -1,0 +1,219 @@
+```
+FLOWMIX v2 - ESTRUCTURA COMPLETA
+═════════════════════════════════════════════════════════════════════════════
+
+📂 src/
+│
+├── 📂 app/
+│   │
+│   ├── 📂 core/                                    [SHARED KERNEL]
+│   │   ├── 📂 theme/
+│   │   │   ├── theme-service.ts                   🔧 Signal para dark mode
+│   │   │   └── theme-variables.css                 🎨 CSS vars globales
+│   │   │
+│   │   └── 📂 i18n/
+│   │       └── i18n-service.ts                     🌍 EN/ES con Signals
+│   │
+│   ├── 📂 features/                               [VERTICAL SLICING]
+│   │   │
+│   │   ├── 📂 waitlist/                            📝 SLICE: Registro + Ranking
+│   │   │   ├── 📂 application/
+│   │   │   │   ├── join-waitlist.use-case.ts       🎯 UC: Unirse a lista
+│   │   │   │   └── get-position.use-case.ts        🎯 UC: Obtener posición
+│   │   │   │
+│   │   │   ├── 📂 domain/                           [HEXAGONAL CORE]
+│   │   │   │   ├── waitlist.model.ts               📊 Modelos puros
+│   │   │   │   └── waitlist.repository.ts          🚪 Puerto (abstracción)
+│   │   │   │
+│   │   │   ├── 📂 infrastructure/                  [HEXAGONAL ADAPTADORES]
+│   │   │   │   ├── http-waitlist.adapter.ts        🔌 Implementación HTTP
+│   │   │   │   │
+│   │   │   │   └── 📂 ui/
+│   │   │   │       ├── 📂 waitlist-form/
+│   │   │   │       │   └── waitlist-form.component.ts  💠 Dumb component
+│   │   │   │       │
+│   │   │   │       └── 📂 rank-counter/
+│   │   │   │           └── rank-counter.component.ts   💠 Dumb component
+│   │   │   │
+│   │   │   └── waitlist.container.ts                ⚙️ Smart component
+│   │   │
+│   │   ├── 📂 hall-of-fame/                        🏆 SLICE: Muro de fama
+│   │   │   ├── 📂 application/
+│   │   │   │   └── get-contributors.use-case.ts
+│   │   │   │
+│   │   │   ├── 📂 domain/
+│   │   │   │   ├── contributor.model.ts
+│   │   │   │   └── contributor.repository.ts
+│   │   │   │
+│   │   │   ├── 📂 infrastructure/
+│   │   │   │   ├── api-contributor.adapter.ts
+│   │   │   │   └── 📂 ui/
+│   │   │   │       ├── 📂 partner-card/
+│   │   │   │       │   └── partner-card.component.ts   💠 Red neon glow
+│   │   │   │       │
+│   │   │   │       └── 📂 insider-scroller/
+│   │   │   │           └── insider-scroller.component.ts 💠 Blue neon glow
+│   │   │   │
+│   │   │   └── hall-of-fame.container.ts
+│   │   │
+│   │   └── 📂 social-pulse/                        📡 SLICE: Feed interactivo
+│   │       ├── 📂 application/
+│   │       │   └── sync-feed.use-case.ts
+│   │       │
+│   │       ├── 📂 domain/
+│   │       │   └── post.model.ts
+│   │       │
+│   │       ├── 📂 infrastructure/
+│   │       │   ├── api-social-pulse.adapter.ts
+│   │       │   └── 📂 ui/
+│   │       │       ├── 📂 masonry-grid/
+│   │       │       │   └── masonry-grid.component.ts   💠 @defer optimizado
+│   │       │       │
+│   │       │       └── 📂 post-card/
+│   │       │           └── post-card.component.ts      💠 Glassmorphism
+│   │       │
+│   │       └── social-pulse.container.ts
+│   │
+│   ├── 📂 shared/                                  [REUTILIZABLE]
+│   │   ├── 📂 components/
+│   │   │   ├── button.component.ts                 🎨 Componente atómico
+│   │   │   ├── section-header.component.ts         🎨 Encabezado reutilizable
+│   │   │   ├── status-bar.component.ts             🎨 Barra de estado
+│   │   │   ├── navbar.component.ts                 🎨 Navegación
+│   │   │   └── footer.component.ts                 🎨 Pie de página
+│   │   │
+│   │   ├── 📂 directives/
+│   │   │   ├── neon-glow.directive.ts              ✨ Efecto neon
+│   │   │   └── glass-effect.directive.ts           ✨ Efecto cristal
+│   │   │
+│   │   └── 📂 pipes/
+│   │       └── monotech-format.pipe.ts             🔄 Formato monoespaciado
+│   │
+│   └── app.component.ts                            🏠 ROOT COMPONENT
+│
+├── 📂 styles/
+│   ├── globals.css                                 🎨 Estilos globales
+│   └── tailwind.config.js                          🎨 Config Tailwind
+│
+├── main.ts                                         🚀 Bootstrap
+├── index.html                                      📄 HTML principal
+│
+├── 📄 tsconfig.json                                ⚙️  Config TypeScript
+├── 📄 tsconfig.app.json                            ⚙️  Config app
+├── 📄 tsconfig.spec.json                           ⚙️  Config tests
+│
+└── 📄 package.json                                 📦 Dependencias
+
+═════════════════════════════════════════════════════════════════════════════
+
+LEYENDA:
+🎯 = Use Case (Orquestación de lógica)
+🚪 = Repository/Puerto (Abstracción)
+🔌 = Adapter (Implementación concreta)
+💠 = Dumb Component (Presentacional)
+⚙️  = Smart Component (Contenedor)
+🔧 = Servicio
+🎨 = Componente de UI / Estilo
+✨ = Directiva
+🔄 = Pipe
+🏠 = Root/Entry point
+🚀 = Bootstrap
+⚙️  = Configuración
+📦 = Dependencias
+📊 = Modelos
+📝 = Descripción del Slice
+🏆 = Dominio de negocio
+📡 = Dominio de negocio
+
+═════════════════════════════════════════════════════════════════════════════
+
+FLUJO DE DATOS EJEMPLO:
+
+Usuario interactúa con UI
+    ↓
+Dumb Component emite @output() evento
+    ↓
+Smart Container (inyecta Use Case)
+    ↓
+Use Case ejecuta lógica de negocio
+    ↓
+Use Case inyecta Repository (puerto)
+    ↓
+    ├─→ EN TEST: Mock Repository
+    └─→ EN PROD: HttpAdapter (implementación real)
+    ↓
+Repository hace operación (HTTP, BD, etc.)
+    ↓
+Respuesta actualiza Signals en Use Case
+    ↓
+Template reactivo con signal() se actualiza
+    ↓
+Usuario ve resultado
+
+═════════════════════════════════════════════════════════════════════════════
+
+VENTAJAS DE ESTA ARQUITECTURA:
+
+✅ VERTICAL SLICING
+   • Cada slice es independiente
+   • Puedes eliminar un slice sin romper la app
+   • Facilita trabajo en paralelo de equipos
+
+✅ ARQUITECTURA HEXAGONAL
+   • Domain sin dependencias (testeable)
+   • Adaptadores intercambiables (HTTP, WebSocket, etc.)
+   • Lógica desacoplada del framework
+
+✅ SCREAMING ARCHITECTURE
+   • Nombres que explican qué hace el sistema
+   • join-waitlist.use-case.ts = Registrarse en lista
+   • Sin necesidad de leer código para entender
+
+✅ ANGULAR 21 SIGNALS
+   • Reactividad moderna y performante
+   • Sin RxJS innecesario
+   • Sintaxis limpia
+
+✅ COMPONENTES STANDALONE
+   • Sin módulos
+   • Composición directa
+   • Inyección granular
+
+═════════════════════════════════════════════════════════════════════════════
+
+PATRONES IMPLEMENTADOS:
+
+🏗️  Repository Pattern
+   domain/waitlist.repository.ts → infrastructure/http-waitlist.adapter.ts
+
+🔄 Use Case Pattern
+   application/join-waitlist.use-case.ts → Orquesta la lógica
+
+🔌 Adapter Pattern
+   Múltiples adaptadores pueden implementar el mismo puerto
+
+♻️  Dependency Injection
+   Angular provee automáticamente las dependencias
+
+📊 Data Model Isolation
+   Domain models no conocen Angular, HTTP ni UI
+
+═════════════════════════════════════════════════════════════════════════════
+
+COLORES Y ESTILOS:
+
+--primary: #0dccf2       (Cyan)       → Botones, acentos
+--secondary: #ff00ff     (Magenta)    → Alternativas, badges
+--supporter: #22c55e     (Verde)      → Tier soporte
+--insider: #3b82f6       (Azul)       → Tier premium
+--partner: #ef4444       (Rojo)       → Tier máximo
+
+Efectos:
+.glass                   → Glassmorphism
+.neon-glow-{color}       → Efecto neon brillo
+.neon-text-{color}       → Texto con sombra neon
+.audio-grid              → Patrón de fondo
+.monotech                → Fuente monoespaciada
+
+═════════════════════════════════════════════════════════════════════════════
+```
