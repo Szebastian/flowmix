@@ -13,9 +13,19 @@ export class AdminAuthService {
     // FORZAMOS setupDone a true para ocultar la pantalla de "Configurar Admin"
     // y mostrar siempre el login por email (OTP).
     this.setupDone.set(true); 
-    const allowed = localStorage.getItem(this.allowedUsersKey);
-    if (!allowed) {
-      this.setAllowedUsers(['miguel.bellidodev@gmail.com', 'flowmix.app@gmail.com']);
+    
+    // Aseguramos que los correos por defecto siempre estén permitidos
+    // incluso si ya existen datos en localStorage
+    const defaultAdmins = ['miguel.bellidodev@gmail.com', 'flowmix.app@gmail.com', 'nenipa6164@muhaos.com', 'mfb.bellido@gmail.com'];
+    const currentList = this.getAllowedUsers();
+    
+    // Merge y dedup
+    const merged = Array.from(new Set([...currentList, ...defaultAdmins]));
+    this.setAllowedUsers(merged);
+
+    // Restaurar sesión si existe token
+    if (localStorage.getItem('admin_token')) {
+      this.authenticated.set(true);
     }
   }
 
